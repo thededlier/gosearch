@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "gosearch/internal/gRPC/service";
+
+import "gosearch/internal/proto/domain/search.proto";
+
+service SearchService {
+    rpc add (domain.ElasticsearchStatus) returns (GetStatusResponse);
+}
+
+message GetStatusResponse {
+    domain.ElasticsearchStatus status = 1;
+    Error error = 2;
+}
+
+message Error {
+    string code = 1;
+    string message = 2;
+}

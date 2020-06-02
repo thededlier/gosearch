@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "gosearch/internal/gRPC/domain";
+
+message ElasticsearchStatus {
+    string status = 1;
+}
