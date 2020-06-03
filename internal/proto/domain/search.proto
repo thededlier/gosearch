@@ -4,6 +4,11 @@ package domain;
 
 option go_package = "gosearch/internal/gRPC/domain";
 
-message ElasticsearchStatus {
+message EmptyRequest {}
+
+message ElasticsearchInfo {
     string status = 1;
+    string clusterName = 2;
+    string clusterId = 3;
+    string elasticsearchVersion = 4;
 }

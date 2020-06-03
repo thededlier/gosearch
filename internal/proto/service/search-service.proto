@@ -7,11 +7,11 @@ option go_package = "gosearch/internal/gRPC/service";
 import "gosearch/internal/proto/domain/search.proto";
 
 service SearchService {
-    rpc getStatus (domain.ElasticsearchStatus) returns (GetStatusResponse);
+    rpc getInfo (domain.EmptyRequest) returns (GetInfoResponse);
 }
 
-message GetStatusResponse {
-    domain.ElasticsearchStatus status = 1;
+message GetInfoResponse {
+    domain.ElasticsearchInfo info = 1;
     Error error = 2;
 }
 

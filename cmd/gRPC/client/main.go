@@ -23,11 +23,9 @@ func main() {
 
 	client := service.NewSearchServiceClient(conn)
 
-	status := domain.ElasticsearchStatus{
-		Status: "OK",
-	}
+	status := domain.EmptyRequest{}
 
-	if responseMessage, err := client.GetStatus(context.Background(), &status); err != nil {
+	if responseMessage, err := client.GetInfo(context.Background(), &status); err != nil {
 		panic(fmt.Sprintf("Was not able to check status: %v", err))
 	} else {
 		fmt.Println("Status received")
