@@ -134,6 +134,69 @@ func (x *ElasticsearchInfo) GetElasticsearchVersion() string {
 	return ""
 }
 
+type Document struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Index      string `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
+	DocumentID string `protobuf:"bytes,2,opt,name=documentID,proto3" json:"documentID,omitempty"`
+	Body       string `protobuf:"bytes,3,opt,name=body,proto3" json:"body,omitempty"`
+}
+
+func (x *Document) Reset() {
+	*x = Document{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_gosearch_internal_proto_domain_search_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Document) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Document) ProtoMessage() {}
+
+func (x *Document) ProtoReflect() protoreflect.Message {
+	mi := &file_gosearch_internal_proto_domain_search_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Document.ProtoReflect.Descriptor instead.
+func (*Document) Descriptor() ([]byte, []int) {
+	return file_gosearch_internal_proto_domain_search_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Document) GetIndex() string {
+	if x != nil {
+		return x.Index
+	}
+	return ""
+}
+
+func (x *Document) GetDocumentID() string {
+	if x != nil {
+		return x.DocumentID
+	}
+	return ""
+}
+
+func (x *Document) GetBody() string {
+	if x != nil {
+		return x.Body
+	}
+	return ""
+}
+
 var File_gosearch_internal_proto_domain_search_proto protoreflect.FileDescriptor
 
 var file_gosearch_internal_proto_domain_search_proto_rawDesc = []byte{
@@ -151,9 +214,15 @@ var file_gosearch_internal_proto_domain_search_proto_rawDesc = []byte{
 	0x72, 0x49, 0x64, 0x12, 0x32, 0x0a, 0x14, 0x65, 0x6c, 0x61, 0x73, 0x74, 0x69, 0x63, 0x73, 0x65,
 	0x61, 0x72, 0x63, 0x68, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x14, 0x65, 0x6c, 0x61, 0x73, 0x74, 0x69, 0x63, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68,
-	0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x1f, 0x5a, 0x1d, 0x67, 0x6f, 0x73, 0x65, 0x61,
-	0x72, 0x63, 0x68, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x67, 0x52, 0x50,
-	0x43, 0x2f, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x54, 0x0a, 0x08, 0x44, 0x6f, 0x63, 0x75, 0x6d,
+	0x65, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x1e, 0x0a, 0x0a, 0x64, 0x6f, 0x63,
+	0x75, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x64,
+	0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x49, 0x44, 0x12, 0x12, 0x0a, 0x04, 0x62, 0x6f, 0x64,
+	0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x42, 0x1f, 0x5a,
+	0x1d, 0x67, 0x6f, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x61, 0x6c, 0x2f, 0x67, 0x52, 0x50, 0x43, 0x2f, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -168,10 +237,11 @@ func file_gosearch_internal_proto_domain_search_proto_rawDescGZIP() []byte {
 	return file_gosearch_internal_proto_domain_search_proto_rawDescData
 }
 
-var file_gosearch_internal_proto_domain_search_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_gosearch_internal_proto_domain_search_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_gosearch_internal_proto_domain_search_proto_goTypes = []interface{}{
 	(*EmptyRequest)(nil),      // 0: domain.EmptyRequest
 	(*ElasticsearchInfo)(nil), // 1: domain.ElasticsearchInfo
+	(*Document)(nil),          // 2: domain.Document
 }
 var file_gosearch_internal_proto_domain_search_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -211,6 +281,18 @@ func file_gosearch_internal_proto_domain_search_proto_init() {
 				return nil
 			}
 		}
+		file_gosearch_internal_proto_domain_search_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Document); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -218,7 +300,7 @@ func file_gosearch_internal_proto_domain_search_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_gosearch_internal_proto_domain_search_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

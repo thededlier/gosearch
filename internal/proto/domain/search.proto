@@ -12,3 +12,9 @@ message ElasticsearchInfo {
     string clusterId = 3;
     string elasticsearchVersion = 4;
 }
+
+message Document {
+    string index = 1;
+    string documentID = 2;
+    string body = 3; 
+}

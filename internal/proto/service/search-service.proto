@@ -8,11 +8,23 @@ import "gosearch/internal/proto/domain/search.proto";
 
 service SearchService {
     rpc getInfo (domain.EmptyRequest) returns (GetInfoResponse);
+    rpc indexDocuments (IndexDocumentsRequest) returns (IndexDocumentsResponse);
 }
+
 
 message GetInfoResponse {
     domain.ElasticsearchInfo info = 1;
     Error error = 2;
+}
+
+message IndexDocumentsRequest {
+    repeated domain.Document documentsList = 1;
+}
+
+message IndexDocumentsResponse {
+    repeated domain.Document documentsList = 1;
+    repeated string failed = 2;
+    Error error = 3;
 }
 
 message Error {

@@ -5,12 +5,15 @@ import (
 	"log"
 	"fmt"
 	"encoding/json"
+	"sync"
+	"strings"
 
 	"gosearch/internal/gRPC/domain"
 	"gosearch/internal/gRPC/service"
 	"gosearch/internal/searchclient"
 
 	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/elastic/go-elasticsearch/v8/esapi"
 )
 
 type SearchService struct {
@@ -34,6 +37,7 @@ func NewSearchService() *SearchService {
 	}
 }
 
+// Get information of the elasticsearch cluster
 func (searchService *SearchService) GetInfo(ctx context.Context, emptyRequest *domain.EmptyRequest) (*service.GetInfoResponse, error) {
 	log.Println("Request::GetInfo")
 
@@ -82,4 +86,60 @@ func (searchService *SearchService) GetInfo(ctx context.Context, emptyRequest *d
 			Error: nil,
 		}, nil
 	}
+}
+
+// Index a list of documents
+func (searchService *SearchService) IndexDocuments(ctx context.Context, indexRequest *service.IndexDocumentsRequest) (*service.IndexDocumentsResponse, error) {
+	log.Println("Request::IndexDocuments")
+
+	var (
+		failedList []string
+		wg sync.WaitGroup
+	)
+
+	// Loop through the documents and index each of them concurrently
+	for i, doc := range indexRequest.DocumentsList {
+		wg.Add(1)
+
+		go func(i int, doc *domain.Document) {
+			defer wg.Done()
+
+			req := esapi.IndexRequest{
+				Index:      doc.Index,
+				DocumentID: doc.DocumentID,
+				Body:       strings.NewReader(doc.Body),
+			}
+		
+			// Perform the request with the client.
+			res, err := req.Do(context.Background(), searchService.esClient)
+
+			if err != nil {
+				log.Fatalf("Failed to fetch response from Elasticsearch: %v", err)
+				failedList = append(failedList, doc.DocumentID)
+			}
+			defer res.Body.Close()
+
+			if res.IsError() {
+				log.Println("[%s] Failed to index Document ID=%s", res.Status(), doc.DocumentID)
+				failedList = append(failedList, doc.DocumentID)
+			} else {
+				// Deserialize the response into a map.
+				var r map[string]interface{}
+				if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
+				  log.Printf("Error parsing the response body: %s", err)
+				} else {
+				  // Print the response status and indexed document version.
+				  log.Printf("[%s] %s; version=%d", res.Status(), r["result"], int(r["_version"].(float64)))
+				}
+			}
+		} (i, doc)
+	}
+
+	wg.Wait()
+
+	return &service.IndexDocumentsResponse{
+		DocumentsList: indexRequest.DocumentsList,
+		Failed: failedList,
+		Error: nil,
+	}, nil
 }

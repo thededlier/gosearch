@@ -31,4 +31,23 @@ func main() {
 		fmt.Println("Status received")
 		fmt.Println(responseMessage)
 	}
+
+	document := domain.Document {
+		Index: "test",
+		DocumentID: "1",
+		Body: `{ "title": "Test" }`,
+	}
+
+	docList := []*domain.Document { &document }
+
+	indexRequest := service.IndexDocumentsRequest {
+		DocumentsList: docList,
+	}
+
+	if responseMessage, err := client.IndexDocuments(context.Background(), &indexRequest); err != nil {
+		panic(fmt.Sprintf("Failed to index: %v", err))
+	} else {
+		fmt.Println("Status received")
+		fmt.Println(responseMessage)
+	}
 }
