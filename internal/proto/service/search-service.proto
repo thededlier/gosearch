@@ -9,8 +9,8 @@ import "gosearch/internal/proto/domain/search.proto";
 service SearchService {
     rpc getInfo (domain.EmptyRequest) returns (GetInfoResponse);
     rpc indexDocuments (IndexDocumentsRequest) returns (IndexDocumentsResponse);
+    rpc customSearch (CustomSearchRequest) returns (SearchResponse);
 }
-
 
 message GetInfoResponse {
     domain.ElasticsearchInfo info = 1;
@@ -30,4 +30,14 @@ message IndexDocumentsResponse {
 message Error {
     string code = 1;
     string message = 2;
+}
+
+message SearchResponse {
+    int32 totalHits = 1;
+    repeated domain.Document hits = 2;
+}
+
+message CustomSearchRequest {
+    string indexes = 1;
+    bytes query = 2;
 }

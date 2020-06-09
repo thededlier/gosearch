@@ -250,6 +250,116 @@ func (x *Error) GetMessage() string {
 	return ""
 }
 
+type SearchResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TotalHits int32              `protobuf:"varint,1,opt,name=totalHits,proto3" json:"totalHits,omitempty"`
+	Hits      []*domain.Document `protobuf:"bytes,2,rep,name=hits,proto3" json:"hits,omitempty"`
+}
+
+func (x *SearchResponse) Reset() {
+	*x = SearchResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_gosearch_internal_proto_service_search_service_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchResponse) ProtoMessage() {}
+
+func (x *SearchResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_gosearch_internal_proto_service_search_service_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchResponse.ProtoReflect.Descriptor instead.
+func (*SearchResponse) Descriptor() ([]byte, []int) {
+	return file_gosearch_internal_proto_service_search_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SearchResponse) GetTotalHits() int32 {
+	if x != nil {
+		return x.TotalHits
+	}
+	return 0
+}
+
+func (x *SearchResponse) GetHits() []*domain.Document {
+	if x != nil {
+		return x.Hits
+	}
+	return nil
+}
+
+type CustomSearchRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Indexes string `protobuf:"bytes,1,opt,name=indexes,proto3" json:"indexes,omitempty"`
+	Query   []byte `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
+}
+
+func (x *CustomSearchRequest) Reset() {
+	*x = CustomSearchRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_gosearch_internal_proto_service_search_service_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CustomSearchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CustomSearchRequest) ProtoMessage() {}
+
+func (x *CustomSearchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_gosearch_internal_proto_service_search_service_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CustomSearchRequest.ProtoReflect.Descriptor instead.
+func (*CustomSearchRequest) Descriptor() ([]byte, []int) {
+	return file_gosearch_internal_proto_service_search_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CustomSearchRequest) GetIndexes() string {
+	if x != nil {
+		return x.Indexes
+	}
+	return ""
+}
+
+func (x *CustomSearchRequest) GetQuery() []byte {
+	if x != nil {
+		return x.Query
+	}
+	return nil
+}
+
 var File_gosearch_internal_proto_service_search_service_proto protoreflect.FileDescriptor
 
 var file_gosearch_internal_proto_service_search_service_proto_rawDesc = []byte{
@@ -283,20 +393,34 @@ var file_gosearch_internal_proto_service_search_service_proto_rawDesc = []byte{
 	0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x35, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12,
 	0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63,
 	0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x32, 0x9d, 0x01,
-	0x0a, 0x0d, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
-	0x39, 0x0a, 0x07, 0x67, 0x65, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x14, 0x2e, 0x64, 0x6f, 0x6d,
-	0x61, 0x69, 0x6e, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x18, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e,
-	0x66, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x51, 0x0a, 0x0e, 0x69, 0x6e,
-	0x64, 0x65, 0x78, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x1e, 0x2e, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x44, 0x6f, 0x63, 0x75,
-	0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x44, 0x6f, 0x63, 0x75,
-	0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x20, 0x5a,
-	0x1e, 0x67, 0x6f, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
-	0x61, 0x6c, 0x2f, 0x67, 0x52, 0x50, 0x43, 0x2f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x54, 0x0a,
+	0x0e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x1c, 0x0a, 0x09, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x48, 0x69, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x09, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x48, 0x69, 0x74, 0x73, 0x12, 0x24, 0x0a,
+	0x04, 0x68, 0x69, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x64, 0x6f,
+	0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x04, 0x68,
+	0x69, 0x74, 0x73, 0x22, 0x45, 0x0a, 0x13, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x53, 0x65, 0x61,
+	0x72, 0x63, 0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x69, 0x6e,
+	0x64, 0x65, 0x78, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x69, 0x6e, 0x64,
+	0x65, 0x78, 0x65, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0c, 0x52, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x32, 0xe4, 0x01, 0x0a, 0x0d, 0x53,
+	0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x39, 0x0a, 0x07,
+	0x67, 0x65, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x14, 0x2e, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e,
+	0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x51, 0x0a, 0x0e, 0x69, 0x6e, 0x64, 0x65, 0x78,
+	0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x1e, 0x2e, 0x73, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e,
+	0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x73, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x44, 0x6f, 0x63, 0x75, 0x6d, 0x65, 0x6e,
+	0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x45, 0x0a, 0x0c, 0x63, 0x75,
+	0x73, 0x74, 0x6f, 0x6d, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x12, 0x1c, 0x2e, 0x73, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x2e, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x53, 0x65, 0x61, 0x72, 0x63,
+	0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x42, 0x20, 0x5a, 0x1e, 0x67, 0x6f, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x2f, 0x69, 0x6e,
+	0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x67, 0x52, 0x50, 0x43, 0x2f, 0x73, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -311,31 +435,36 @@ func file_gosearch_internal_proto_service_search_service_proto_rawDescGZIP() []b
 	return file_gosearch_internal_proto_service_search_service_proto_rawDescData
 }
 
-var file_gosearch_internal_proto_service_search_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_gosearch_internal_proto_service_search_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_gosearch_internal_proto_service_search_service_proto_goTypes = []interface{}{
 	(*GetInfoResponse)(nil),          // 0: service.GetInfoResponse
 	(*IndexDocumentsRequest)(nil),    // 1: service.IndexDocumentsRequest
 	(*IndexDocumentsResponse)(nil),   // 2: service.IndexDocumentsResponse
 	(*Error)(nil),                    // 3: service.Error
-	(*domain.ElasticsearchInfo)(nil), // 4: domain.ElasticsearchInfo
-	(*domain.Document)(nil),          // 5: domain.Document
-	(*domain.EmptyRequest)(nil),      // 6: domain.EmptyRequest
+	(*SearchResponse)(nil),           // 4: service.SearchResponse
+	(*CustomSearchRequest)(nil),      // 5: service.CustomSearchRequest
+	(*domain.ElasticsearchInfo)(nil), // 6: domain.ElasticsearchInfo
+	(*domain.Document)(nil),          // 7: domain.Document
+	(*domain.EmptyRequest)(nil),      // 8: domain.EmptyRequest
 }
 var file_gosearch_internal_proto_service_search_service_proto_depIdxs = []int32{
-	4, // 0: service.GetInfoResponse.info:type_name -> domain.ElasticsearchInfo
+	6, // 0: service.GetInfoResponse.info:type_name -> domain.ElasticsearchInfo
 	3, // 1: service.GetInfoResponse.error:type_name -> service.Error
-	5, // 2: service.IndexDocumentsRequest.documentsList:type_name -> domain.Document
-	5, // 3: service.IndexDocumentsResponse.documentsList:type_name -> domain.Document
+	7, // 2: service.IndexDocumentsRequest.documentsList:type_name -> domain.Document
+	7, // 3: service.IndexDocumentsResponse.documentsList:type_name -> domain.Document
 	3, // 4: service.IndexDocumentsResponse.error:type_name -> service.Error
-	6, // 5: service.SearchService.getInfo:input_type -> domain.EmptyRequest
-	1, // 6: service.SearchService.indexDocuments:input_type -> service.IndexDocumentsRequest
-	0, // 7: service.SearchService.getInfo:output_type -> service.GetInfoResponse
-	2, // 8: service.SearchService.indexDocuments:output_type -> service.IndexDocumentsResponse
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	7, // 5: service.SearchResponse.hits:type_name -> domain.Document
+	8, // 6: service.SearchService.getInfo:input_type -> domain.EmptyRequest
+	1, // 7: service.SearchService.indexDocuments:input_type -> service.IndexDocumentsRequest
+	5, // 8: service.SearchService.customSearch:input_type -> service.CustomSearchRequest
+	0, // 9: service.SearchService.getInfo:output_type -> service.GetInfoResponse
+	2, // 10: service.SearchService.indexDocuments:output_type -> service.IndexDocumentsResponse
+	4, // 11: service.SearchService.customSearch:output_type -> service.SearchResponse
+	9, // [9:12] is the sub-list for method output_type
+	6, // [6:9] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_gosearch_internal_proto_service_search_service_proto_init() }
@@ -392,6 +521,30 @@ func file_gosearch_internal_proto_service_search_service_proto_init() {
 				return nil
 			}
 		}
+		file_gosearch_internal_proto_service_search_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_gosearch_internal_proto_service_search_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CustomSearchRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -399,7 +552,7 @@ func file_gosearch_internal_proto_service_search_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_gosearch_internal_proto_service_search_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -427,6 +580,7 @@ const _ = grpc.SupportPackageIsVersion6
 type SearchServiceClient interface {
 	GetInfo(ctx context.Context, in *domain.EmptyRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
 	IndexDocuments(ctx context.Context, in *IndexDocumentsRequest, opts ...grpc.CallOption) (*IndexDocumentsResponse, error)
+	CustomSearch(ctx context.Context, in *CustomSearchRequest, opts ...grpc.CallOption) (*SearchResponse, error)
 }
 
 type searchServiceClient struct {
@@ -455,10 +609,20 @@ func (c *searchServiceClient) IndexDocuments(ctx context.Context, in *IndexDocum
 	return out, nil
 }
 
+func (c *searchServiceClient) CustomSearch(ctx context.Context, in *CustomSearchRequest, opts ...grpc.CallOption) (*SearchResponse, error) {
+	out := new(SearchResponse)
+	err := c.cc.Invoke(ctx, "/service.SearchService/customSearch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SearchServiceServer is the server API for SearchService service.
 type SearchServiceServer interface {
 	GetInfo(context.Context, *domain.EmptyRequest) (*GetInfoResponse, error)
 	IndexDocuments(context.Context, *IndexDocumentsRequest) (*IndexDocumentsResponse, error)
+	CustomSearch(context.Context, *CustomSearchRequest) (*SearchResponse, error)
 }
 
 // UnimplementedSearchServiceServer can be embedded to have forward compatible implementations.
@@ -470,6 +634,9 @@ func (*UnimplementedSearchServiceServer) GetInfo(context.Context, *domain.EmptyR
 }
 func (*UnimplementedSearchServiceServer) IndexDocuments(context.Context, *IndexDocumentsRequest) (*IndexDocumentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IndexDocuments not implemented")
+}
+func (*UnimplementedSearchServiceServer) CustomSearch(context.Context, *CustomSearchRequest) (*SearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CustomSearch not implemented")
 }
 
 func RegisterSearchServiceServer(s *grpc.Server, srv SearchServiceServer) {
@@ -512,6 +679,24 @@ func _SearchService_IndexDocuments_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SearchService_CustomSearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CustomSearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SearchServiceServer).CustomSearch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.SearchService/CustomSearch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SearchServiceServer).CustomSearch(ctx, req.(*CustomSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _SearchService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "service.SearchService",
 	HandlerType: (*SearchServiceServer)(nil),
@@ -523,6 +708,10 @@ var _SearchService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "indexDocuments",
 			Handler:    _SearchService_IndexDocuments_Handler,
+		},
+		{
+			MethodName: "customSearch",
+			Handler:    _SearchService_CustomSearch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

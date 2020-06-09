@@ -1,6 +1,7 @@
 package impl 
 
 import (
+	"bytes"
 	"context"
 	"log"
 	"fmt"
@@ -123,12 +124,10 @@ func (searchService *SearchService) IndexDocuments(ctx context.Context, indexReq
 				log.Println("[%s] Failed to index Document ID=%s", res.Status(), doc.DocumentID)
 				failedList = append(failedList, doc.DocumentID)
 			} else {
-				// Deserialize the response into a map.
 				var r map[string]interface{}
 				if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
 				  log.Printf("Error parsing the response body: %s", err)
 				} else {
-				  // Print the response status and indexed document version.
 				  log.Printf("[%s] %s; version=%d", res.Status(), r["result"], int(r["_version"].(float64)))
 				}
 			}
@@ -141,5 +140,73 @@ func (searchService *SearchService) IndexDocuments(ctx context.Context, indexReq
 		DocumentsList: indexRequest.DocumentsList,
 		Failed: failedList,
 		Error: nil,
+	}, nil
+}
+
+// Process a custom search query
+func (searchService *SearchService) CustomSearch (ctx context.Context, searchRequest *service.CustomSearchRequest) (*service.SearchResponse, error) {
+	log.Println("Request::CustomSearch")
+
+	var result map[string]interface{}
+	
+	// Es search request
+	res, err := searchService.esClient.Search(
+		searchService.esClient.Search.WithContext(context.Background()),
+		searchService.esClient.Search.WithIndex(searchRequest.Indexes),
+		searchService.esClient.Search.WithBody(bytes.NewBuffer(searchRequest.Query)),
+		searchService.esClient.Search.WithTrackTotalHits(true),
+		searchService.esClient.Search.WithPretty(),
+	)
+
+	if err != nil {
+		log.Fatalf("Failed to fetch response from elasticsearch : %s", err)
+	}
+
+	defer res.Body.Close()
+
+	if res.IsError() {
+		var e map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
+			log.Fatalf("Error parsing the response body: %s", err)
+		} else {
+			// Print the response status and error information.
+			log.Fatalf(
+				"Elasticsearch::[%s] %s: %s",
+				res.Status(),
+				e["error"].(map[string]interface{})["type"],
+				e["error"].(map[string]interface{})["reason"],
+			)
+		}
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&result); err != nil {
+		log.Fatalf("Error parsing the response body: %s", err)
+	}
+
+	log.Printf(
+		"[%s] %d hits; took: %dms",
+		res.Status(),
+		int(result["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+		int(result["took"].(float64)),
+	)
+
+	var hitDocList []*domain.Document
+	// Print the ID and document source for each hit.
+	for _, hit := range result["hits"].(map[string]interface{})["hits"].([]interface{}) {
+		docBody, _ := json.Marshal(hit.(map[string]interface{})["_source"])
+
+		doc := domain.Document{
+			Index: hit.(map[string]interface{})["_index"].(string),
+			DocumentID: hit.(map[string]interface{})["_id"].(string),
+			Body: string(docBody),
+		}
+		hitDocList = append(hitDocList, &doc)
+
+		log.Printf(" * ID=%s, %s", hit.(map[string]interface{})["_id"], hit.(map[string]interface{})["_source"])
+	}
+
+	return &service.SearchResponse{
+		TotalHits: int32(result["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+		Hits: hitDocList,
 	}, nil
 }
