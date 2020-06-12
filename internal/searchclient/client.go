@@ -7,7 +7,13 @@ import (
 )
 
 func CreateNewElasticsearchClient() (esClient *elasticsearch.Client) {
-	esClient, err := elasticsearch.NewDefaultClient()
+	cfg := elasticsearch.Config{
+		Addresses: []string{
+		  	"http://127.0.0.1:9200",
+		},
+	}
+
+	esClient, err := elasticsearch.NewClient(cfg)
 	
 	if err != nil {
 		log.Fatalf("Failed to create Elasticsearch Client")
