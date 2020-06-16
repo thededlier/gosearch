@@ -24,6 +24,9 @@ func main() {
 
 	client := service.NewSearchServiceClient(conn)
 
+
+	// Get elasticsearch information
+
 	status := domain.EmptyRequest{}
 
 	if responseMessage, err := client.GetInfo(context.Background(), &status); err != nil {
@@ -33,26 +36,28 @@ func main() {
 		fmt.Println(responseMessage)
 	}
 
-	// document := domain.Document {
-	// 	Index: "test",
-	// 	DocumentID: "1",
-	// 	Body: `{ "title": "Test" }`,
-	// }
+	// Index a document
 
-	// docList := []*domain.Document { &document }
+	document := domain.Document {
+		Index: "test",
+		DocumentID: "1",
+		Body: `{ "title": "Test" }`,
+	}
 
-	// indexRequest := service.IndexDocumentsRequest {
-	// 	DocumentsList: docList,
-	// }
+	docList := []*domain.Document { &document }
 
-	// if responseMessage, err := client.IndexDocuments(context.Background(), &indexRequest); err != nil {
-	// 	panic(fmt.Sprintf("Failed to index: %v", err))
-	// } else {
-	// 	fmt.Println("Status received")
-	// 	fmt.Println(responseMessage)
-	// }
+	indexRequest := service.IndexDocumentsRequest {
+		DocumentsList: docList,
+	}
 
-	// Search Request
+	if responseMessage, err := client.IndexDocuments(context.Background(), &indexRequest); err != nil {
+		panic(fmt.Sprintf("Failed to index: %v", err))
+	} else {
+		fmt.Println("Status received")
+		fmt.Println(responseMessage)
+	}
+
+	// Search for the document
 	
 	query := map[string]interface{}{
 		"query": map[string]interface{}{

@@ -1,15 +1,15 @@
 package searchclient
 
 import (
+	"os"
 	"log"
-	
 	"github.com/elastic/go-elasticsearch/v8"
 )
 
 func CreateNewElasticsearchClient() (esClient *elasticsearch.Client) {
 	cfg := elasticsearch.Config{
 		Addresses: []string{
-		  	"http://127.0.0.1:9200",
+		  	os.Getenv("ELASTICSEARCH_URL"),
 		},
 	}
 
