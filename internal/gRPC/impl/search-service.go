@@ -57,36 +57,36 @@ func (searchService *SearchService) GetInfo(ctx context.Context, emptyRequest *d
 		return &service.GetInfoResponse{
 			Info: nil,
 			Error: &requestError,
-		}, nil
-	} else {
-		defer res.Body.Close()
-		esInfo := &EsInfo{}
-		
-		// Decode info 
-		if err := json.NewDecoder(res.Body).Decode(esInfo); err != nil {
-			requestError := service.Error{
-				Code: "500",
-				Message: fmt.Sprintf("Failed to deserialize json: %v", err),
-			}
-			
-			return &service.GetInfoResponse{
-				Info: nil,
-				Error: &requestError,
-			}, nil
-		}
+		}, err
+	} 
 
-		esStatus := domain.ElasticsearchInfo {
-			Status: "OK",
-			ClusterName: esInfo.ClusterName,
-			ClusterId: esInfo.ClusterId,
-			ElasticsearchVersion: esInfo.Version.Number,
+	defer res.Body.Close()
+	esInfo := &EsInfo{}
+	
+	// Decode info 
+	if err := json.NewDecoder(res.Body).Decode(esInfo); err != nil {
+		requestError := service.Error{
+			Code: "500",
+			Message: fmt.Sprintf("Failed to deserialize json: %v", err),
 		}
 		
 		return &service.GetInfoResponse{
-			Info: &esStatus,
-			Error: nil,
+			Info: nil,
+			Error: &requestError,
 		}, nil
 	}
+
+	esStatus := domain.ElasticsearchInfo {
+		Status: "OK",
+		ClusterName: esInfo.ClusterName,
+		ClusterId: esInfo.ClusterId,
+		ElasticsearchVersion: esInfo.Version.Number,
+	}
+	
+	return &service.GetInfoResponse{
+		Info: &esStatus,
+		Error: nil,
+	}, nil
 }
 
 // Index a list of documents
